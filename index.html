@@ -1,0 +1,110 @@
+<html>
+<head>
+  <script src="/js/aframe.min.js"></script>
+  <script src="/js/aframe-environment.js"></script>
+</head>
+
+<script>
+/**var box1 = document.querySelector('a-box');
+box1.addEventListener('mouseenter', function(){
+  box1.setAttribute('scale',{x:3,y:3,z:3});
+  console.log("change ")
+})
+
+box1.addEventListener('mouseleave', function(){
+  box1.setAttribute('scale',{x:1,y:1,z:1});
+  console.log("change ")
+})
+
+box1.addEventListener('click', function(){
+  box1.setAttribute('color',{x:1,y:1,z:1});
+  console.log("change ")
+}) **/
+
+AFRAME.registerComponent('scale-on-mouseclick',{
+  schema: {
+    to: {default: '3 3 3',type: 'vec3'},
+    from: {default: '1 1 1',type: 'vec3'}
+  },
+  init: function(){
+    var data = this.data
+    var el = this.el;
+    this.el.addEventListener('mouseenter',function(){
+      el.object3D.scale.copy(data.to)
+    });
+
+    this.el.addEventListener('mouseleave',function(){
+      el.object3D.scale.copy(data.from)
+    });
+
+    this.el.addEventListener('click',function(){
+      el.setAttribute('color',"blue");
+    })
+  }
+
+})
+</script>
+
+<a-scene vr-mode-ui="enabled: false">
+<a-assets >
+    <a-asset-item id="cube-obj" src="./cube.obj"></a-asset-item>
+    <a-asset-item id="cube-mtl" src="./cube.mtl"></a-asset-item>
+    <img id="boxTexture" src="./mYmmbrp.jpg"/>
+    <img id="skyTexture"
+      src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
+    <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+  </a-assets>
+
+ <a-box src="#boxTexture" color="blue" position="4 0 -18" scale="2 2 2" rotation="0 0 0"
+ 
+ animation__a="property: object3D.rotation.z; dir: reverse;easing: linear;to:360;  dur: 2000; loop: true
+ " animation__b="property: object3D.rotation.y; dir: reverse;easing: linear;to:-360;  dur: 2000; loop: true"></a-box>
+  <a-box  src="#boxTexture" color="red"  position="0 1 -18"  rotation="0 45 45" scale="2 2 2" scale-on-mouseclick 
+  animation="property: object3D.position.y; to: 3.2; dir: alternate; dur: 4000; loop: true"
+  >
+  <a-sphere color="#eee"  position="0 0 -14">
+  </a-sphere>
+
+  <a-cylinder color="green"  position="0 2 -18">
+  </a-cylinder>
+
+  </a-box>
+
+  <a-entity obj-model="obj: #cube-obj; mtl: #cube-mtl" position="4 0 -5" rotation="0 90 0"></a-entity>
+
+
+    <a-box  color="yellow"  position="0 0 18"  rotation="45 0 0 " scale="2 2 2"  animation__b="property: object3D.rotation.y; dir: reverse;easing: linear;to:-360;  dur: 2000; loop: true"></a-box>
+
+    <a-box  color="gray"  position="-18 0 0"   rotation="45 0 0 "  scale="2 2 2" animation__b="property: object3D.rotation.y; dir: reverse;easing: linear;to:-360;  dur: 2000; loop: true"></a-box>
+
+    <a-box  color="pink"  position="18 0 0"   rotation="45 0 0 " scale="2 2 2" animation__b="property: object3D.rotation.y; dir: reverse;easing: linear;to:-360;  dur: 2000; loop: true"></a-box>
+<!-- <a-text
+  value="Vincent Tech"
+  position="-0.9 0.2 -3"
+  color="#BBB"
+  scale="1.5 1.5 1.5 "></a-text> -->
+  
+  
+    <a-sky color="#777"></a-sky>
+   <a-plane color="#222" position="0 -5 0" repeat="10 10" rotation="-90 0 0" width="30" height="30"></a-plane>
+
+    <a-light type="ambient" color="#445451"></a-light>
+  <a-light type="point" intensity="1.2" position="4 4 4"></a-light>
+
+   <a-camera rotation="0 0 0" position="0 1.7 0"
+   
+
+   >
+
+   <!-- animation__a="property: object3D.position.y; to: 0.5; dir: alternate; dur: 3800; loop: true"
+   animation__a1="property: object3D.rotation.y; to: 360; easing:linear; dur: 10000; loop: true" -->
+
+     
+  </a-camera>
+  
+     <a-cursor rayOrigin="mouse"><a-cursor>
+
+</a-scene>
+
+
+</html>

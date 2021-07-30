@@ -1,0 +1,69 @@
+<html>
+<head>
+  <script src="/js/aframe.min.js"></script>
+  <script src="/js/aframe-template-component.min.js"></script>
+    <script src="/js/aframe-layout-component.min.js"></script>
+    <script src="/js/aframe-event-set-component.min.js"></script>
+    <script src="/js/aframe-proxy-event-component.min.js"></script>
+</head>
+
+<script>
+</script>
+
+<body>
+
+<a-scene vr-mode-ui="enabled: true">
+    
+  
+<a-assets>
+    <!-- Template. -->
+    <script id="plane" type="text/html">
+        <a-entity class="link"
+        geometry="primitive: plane; height: 1; width: 1"
+        material="shader: flat; src: ${thumb}"
+        sound="on: click; src: #click-sound"
+
+        event-set__mouseenter="scale: 1.2 1.2 1"
+        event-set__mouseleave="scale: 1 1 1"
+        event-set__click="_target: #image-360; _delay: 1000; material.src: ${src}"
+        proxy-event="event: click; to: #image-360; as: fade">
+        
+        </a-entity>
+    </script>
+    <!-- Audio. -->
+    <audio id="click-sound" src="/click.ogg"></audio>  
+    <!-- Images. -->
+    <img id="city" src="/assets/p1.jpeg">
+    <img id="city-thumb" src="/assets/thumb-city.jpg">
+    <img id="cubes" src="/assets/p2.jpg">
+    <img id="cubes-thumb" src="/assets/thumb-cubes.jpg">
+    <img id="sechelt" src="/assets/sechelt.jpg">
+    <img id="sechelt-thumb" src="/assets/thumb-sechelt.jpg">
+</a-assets>
+
+<a-sky id="image-360" radius="60" src="#cubes"
+    animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 1000; startEvents: fade"
+    animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"
+></a-sky>
+
+
+<a-entity id="links" layout="type: line; margin: 1.5" position="-3 -1 -4">
+    <a-entity template="src: #plane" data-thumb="#city-thumb" data-src="#city"></a-entity>
+    <a-entity template="src: #plane" data-thumb="#cubes-thumb"  data-src="#cubes"></a-entity>
+    <a-entity template="src: #plane" data-thumb="#sechelt-thumb"  data-src="#sechelt"></a-entity>
+</a-entity>
+
+<!--camera. animation__auto="property: rotation; from: 0 0 0 ;to: 0 360 0;dur: 30000"-->
+<a-camera
+>
+    <a-cursor
+      id="cursor"
+      animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; easing: easeInCubic; dur: 150; startEvents: click"
+      animation__clickreset="property: scale; to: 0.1 0.1 0.1; dur: 1; startEvents: animationcomplete__click"
+      animation__fusing="property: scale; from: 1 1 1; to: 0.1 0.1 0.1; easing: easeInCubic; dur: 150; startEvents: fusing"></a-cursor>
+
+  </a-camera>
+
+</a-scene>
+
+</body>
